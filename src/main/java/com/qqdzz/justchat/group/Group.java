@@ -36,4 +36,13 @@ public class Group {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "name='" + name + '\'' +
+                ", members=" + members +
+                ", createTime=" + createTime +
+                '}';
+    }
 }

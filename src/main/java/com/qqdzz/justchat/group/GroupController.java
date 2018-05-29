@@ -36,6 +36,7 @@ public class GroupController {
 
     @PostMapping("/group")
     public void create(@RequestBody Group group) {
+        System.out.println(group);
         try {
             Session session = jmsConnection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             jmsSessions.put(group.getName(), session);

@@ -12,3 +12,19 @@ body {
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
+
+.row {
+    margin-bottom: 30px;
+}
+
+label {
+    margin-right: 5px;
+}
+
+button {
+    align-self: end;
+}
+
+.chat-window {
+    margin-bottom: 50px;
+}

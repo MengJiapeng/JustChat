@@ -1,42 +1,41 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Hello WebSocket</title>
-    <link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/main.css" rel="stylesheet">
-    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
-    <script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
-    <script src="js/app.js"></script>
-</head>
-<body>
-<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
-    enabled. Please enable
-    Javascript and reload this page!</h2></noscript>
-<div id="main-content" class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <form class="form-inline">
-                <div class="form-group">
-                    <label for="receiver">Receiver name: </label>
-                    <input type="text" id="receiver" class="form-control" placeholder="Input receiver name here...">
+    <head>
+        <title>Hello WebSocket</title>
+        <meta charset="UTF-8">
+        <link href="css/main.css" rel="stylesheet">
+        <link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"/>
+        <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
+        <script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
+        <script src="js/app.js"></script>
+    </head>
+    <body>
+        <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
+            enabled. Please enable
+            Javascript and reload this page!</h2></noscript>
+        <div id="main-content" class="container">
+            <!-- 新建聊天窗口 -->
+            <div class="row">
+                <div class="col-md-10">
+                    <input type="text" id="new-receiver" class="form-control" placeholder="Input receiver name here...">
                 </div>
-            </form>
-        </div>
-        <div class="col-md-6">
-            <form class="form-inline">
-                <div class="form-group">
-                    <label for="content">Message: </label>
-                    <input type="text" id="content" class="form-control" placeholder="Input message here...">
+                <div class="col-md-2">
+                    <button class="btn btn-primary btn-block" id="create-chat" type="submit">新建聊天</button>
                 </div>
-                <button id="send" class="btn btn-default" type="submit">Send</button>
-            </form>
+            </div>
+            <!-- 新建群聊 -->
+            <div class="row">
+                <div class="col-md-5">
+                    <input type="text" id="new-group" class="form-control" placeholder="Input group name here...">
+                </div>
+                <div class="col-md-5">
+                    <input type="text" id="group-members" class="form-control" placeholder="Input group member here, separate with ','">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-success btn-block" id="create-group" type="submit">新建群聊</button>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12" id="chat-window-container">
-        </div>
-    </div>
-</div>
-</body>
+    </body>
 </html>
