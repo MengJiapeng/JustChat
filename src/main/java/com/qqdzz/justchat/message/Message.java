@@ -11,7 +11,8 @@ import java.util.Date;
 public class Message implements Serializable {
 
     public static final int MESSAGE = 0;
-    public static final int ADD_GROUP = 1;
+    public static final int ADD_TEMP_GROUP = 1;
+    public static final int ADD_GROUP = 2;
 
     private String receiverId;
     private String senderName;

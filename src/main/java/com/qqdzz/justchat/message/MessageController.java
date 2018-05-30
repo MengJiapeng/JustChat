@@ -43,7 +43,6 @@ public class MessageController {
     public void createConsumer(String username) throws JMSException {
         Session session = jmsConnection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         jmsSessions.put(username, session);
-        System.out.println(jmsSessions.size());
         Destination destination = session.createQueue(username);
         MessageConsumer messageConsumer = session.createConsumer(destination);
         messageConsumer.setMessageListener(message -> {

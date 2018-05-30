@@ -24,7 +24,8 @@ function connect() {
             console.log(JSON.parse(greeting.body).content);
             var content = JSON.parse(greeting.body).content;
             var sender = JSON.parse(greeting.body).senderName;
-            if (JSON.parse(greeting.body).type === 0) {
+            var msgType = JSON.parse(greeting.body).type;
+            if (msgType === 0) {
                 displayMessage(sender, content, true);
             } else {
                 addGroup(content);
@@ -129,10 +130,10 @@ $(function () {
         }
     });
 
-    $("#create-group").click(function () {
-        var groupName = $("#new-group").val();
+    $("#create-temp-group").click(function () {
+        var groupName = $("#temp-group").val();
         if (groupName !== "") {
-            var groupMembers = $("#group-members").val().split(',');
+            var groupMembers = $("#temp-group-members").val().split(',');
             if (groupMembers.indexOf(username) < 0) {
                 groupMembers.push(username);
             }
@@ -155,20 +156,16 @@ $(function () {
         }
     });
 
-    $(".btn-send").click(function () {
-        var id = $(this).attr("id");
-        var receiver = id.split('-')[2];
-        var message = $("#to-" + receiver).val();
-        console.log(id);
-        console.log(receiver);
-        console.log(message);
-        sendMessage(receiver, message);
-    });
-    connect();
     window.onbeforeunload = function () {
         if (stompClient !== null) {
             console.log("disconnect");
             stompClient.disconnect();
         }
-    }
+        $.ajax({
+            url: "/logout/" + username,
+            type: "GET"
+        });
+    };
+
+    connect();
 });

@@ -1,7 +1,6 @@
 package com.qqdzz.justchat;
 
 import com.qqdzz.justchat.user.User;
-import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -32,11 +31,8 @@ public class JustChatApplication {
 	public Map<String, User> users() {
 		String password = "123456";
 		HashMap<String, User> accounts = new HashMap<>(4);
-		List<String> groupList = new ArrayList<>();
-		groupList.add("hello");
-		groupList.add("world");
-		accounts.put("user1", new User("user1", password, groupList));
-		accounts.put("user2", new User("user2", password, groupList));
+		accounts.put("user1", new User("user1", password, null));
+		accounts.put("user2", new User("user2", password, null));
 		accounts.put("user3", new User("user3", password, null));
 		accounts.put("user4", new User("user4", password, null));
 		return accounts;
@@ -47,6 +43,7 @@ public class JustChatApplication {
 		Connection connection = null;
 		try {
 			connection = connectionFactory.createConnection();
+			connection.setClientID("just-chat");
 			connection.start();
 		} catch (JMSException e) {
 			e.printStackTrace();
