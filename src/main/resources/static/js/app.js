@@ -31,6 +31,11 @@ function connect() {
             }
         });
 
+        $.ajax({
+            url: "/create-consumer?username=" + username,
+            type: "GET"
+        });
+
         if (localStorage.getItem("groupList") !== '') {
             var groupList = localStorage.getItem("groupList").split(",");
             for (var i = 0; i < groupList.length; ++i) {
@@ -134,7 +139,7 @@ $(function () {
             console.log(groupName);
             console.log(groupMembers);
             $.ajax({
-                url: "/group",
+                url: "/temp-group",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify({

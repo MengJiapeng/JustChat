@@ -34,8 +34,8 @@ public class GroupController {
         this.users = users;
     }
 
-    @PostMapping("/group")
-    public void create(@RequestBody Group group) {
+    @PostMapping("/temp-group")
+    public void createTempGroup(@RequestBody Group group) {
         System.out.println(group);
         try {
             Session session = jmsConnection.createSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -56,19 +56,45 @@ public class GroupController {
 
         for (String username : group.getMembers()) {
             if (users.containsKey(username)) {
-                User user = users.get(username);
-                if (user.getJoinedGroup() != null) {
-                    user.getJoinedGroup().add(group.getName());
-                } else {
-                    List<String> joinedGroup = new ArrayList<>();
-                    joinedGroup.add(group.getName());
-                    user.setJoinedGroup(joinedGroup);
-                }
+                addUserToGroup(username, group.getName());
 
                 Message msg = new Message();
                 msg.setType(Message.ADD_GROUP);
                 msg.setContent(group.getName());
                 messagingTemplate.convertAndSend("/" + username, msg);
+            }
+        }
+    }
+
+    @PostMapping("/group")
+    public void createGroup(@RequestBody Group group) throws JMSException {
+        System.out.println(group);
+        Session session = jmsConnection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        jmsSessions.put(group.getName(), session);
+        System.out.println(jmsSessions.size());
+        Destination destination = session.createTopic(group.getName());
+        for (String username : group.getMembers()) {
+            addUserToGroup(username, group.getName());
+            MessageConsumer messageConsumer = session.createConsumer(destination);
+            messageConsumer.setMessageListener(message -> {
+                try {
+                    messagingTemplate.convertAndSend("/" + username, ((ObjectMessage) message).getObject());
+                } catch (JMSException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+    }
+
+    private void addUserToGroup(String username, String groupName) {
+        if (users.containsKey(username)) {
+            User user = users.get(username);
+            if (user.getJoinedGroup() != null) {
+                user.getJoinedGroup().add(groupName);
+            } else {
+                List<String> joinedGroup = new ArrayList<>();
+                joinedGroup.add(groupName);
+                user.setJoinedGroup(joinedGroup);
             }
         }
     }
